@@ -64,6 +64,10 @@ dataset = spark.read.option("header","true").option("inferSchema","true").csv("d
 # Verify that the dataset was successful
 dataset.show()
 
+# Filter the dataset where state is OH and city is Columbus
+filter1 = dataset.filter((dataset.state == "OH") & (dataset.city == "Columbus"))
+filter1.show()
+
 # Copy the dataset in parquet format in 5 partitions under /root
 dataset.repartition(5).write.parquet("/root/dataset_parquet")
 
