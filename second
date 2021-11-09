@@ -1,0 +1,8 @@
+# Run spark-shell
+spark-shell
+# Read the dataset
+val dataset = spark.read.option("header","true").option("inferSchema","true").csv("dataset.csv")
+# Filter the dataset where state is OH and city is Columbus
+val filter1 = dataset.filter($"state" === "OH" && $"city" === "Columbus")
+# Show the result
+filter1.show()
