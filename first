@@ -15,8 +15,9 @@ sudo scala -version
 # Verify if git is installed
 sudo git --version
 
-# If not install git
+# If git not installed
 sudo dnf install git -y
+# Verify git was installed
 sudo git --version
 
 # Install spark
