@@ -12,7 +12,7 @@ spark = (SparkSession \
 dataset = spark.read.csv("dataset.csv")
 
 # Create a temporary view
-dataset.createOrReplaceTempView("SparkSQL_mydataset")
+dataset.createOrReplaceTempView("mytable")
 
 # Show the first 5 rows of the dataset
 spark.sql("SELECT * from mytable").show(5)
