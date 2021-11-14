@@ -1,0 +1,49 @@
+# Running Mariadb server on RHEL8.4 using podman
+# Podman is a container engine developed by RedHat and is a replacement of docker
+# Podman package is available as default 
+# Podman aligned with docker and is rootless
+# Verifying if podman is installed
+podman version
+
+# Installing podman if not installed
+sudo dnf install podman -y
+
+# Running the image from Redhat registry or Docker Hub
+# For this example we are running the image for Redhat registry and we need redhat credentials
+podman login registry.access.redhat.com
+Username: <your username>
+Password: <your password>
+Login Succeeded!
+
+# Pulling  mariadb image
+podman pull registry.access.redhat.com/rhscl/mariadb-100-rhel7
+
+# Listing the image
+podman images
+
+# Creating a persistent data storage
+mkdir myvol
+
+# Inspecting the image 
+podman inspect registry.access.redhat.com/rhscl/mariadb-100-rhel7
+
+# Run container with Podman
+podman run --name mydatadb -d \
+-v myvol:/var/lib/mysql:Z \  # SELinux in enforcing mode 
+-e MYSQL_ROOT_PASSWORD=pass \
+-e MYSQL_USER=user \
+-e MYSQL_PASSWORD=pass \
+-e MYSQL_DATABASE=db \
+-p 3306:3306 \
+rhscl/mariadb-100-rhel7
+
+
+# Access the container sandbox 
+podman exec -it mydatadb /bin/bash
+
+# Connect to MySQL as the database administrator user (root)
+mysql -uroot
+
+# mariadb prompt
+show databases;
+exit;
