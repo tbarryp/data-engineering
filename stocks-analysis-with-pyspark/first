@@ -1,0 +1,102 @@
+# Google and Microsoft stocks analysis with Spark
+# The datasets  from Yahoo finance
+# The pyspark.sql method will be used for illustrating how to use the SQL language in PySpark
+# Spark installed on RHEL8.4 
+
+# Creating a SparkSession 
+from pyspark.sql import SparkSession
+
+spark = SparkSession \
+    .builder \
+    .appName("stocks") \
+    .getOrCreate()
+
+# Load Google data
+df = spark.read.format("csv") \
+     .option("header","true") \
+     .load("/home/kilo/Downloads/GOOG.csv")
+
+# Show the first 5 rows
+df.show()
+
+# Total of rows
+df.count()
+
+# Print the Schema
+df.printSchema()
+
+# Select only the "Date" and "Volume" columns
+df.select("Date", "Volume").show()
+
+# Register the DataFrame as a SQL temporary view
+df.createOrReplaceTempView("google_stocks")
+
+# Select columns
+sqlDF = spark.sql("SELECT * FROM google_stocks")
+
+sqlDF.show()
+sqlDF.count()
+
+# Date functions
+from pyspark.sql.functions import *
+sqlDF1 = spark.sql("SELECT date_format(date,'yyyy') as Year , \
+date_format(date,'MM') as Month ,date_format(date,'d') as Day , \
+Close , Low , High , Volume \
+FROM google_stocks")
+
+sqlDF1.show()
+
+# Date functions with WHERE
+sqlDF2 = spark.sql("SELECT date_format(date,'yyyy') as Year , \
+date_format(date,'MM') as Month , date_format(date,'d') as Day , \
+Close , Low , High , Volume \
+FROM google_stocks WHERE date_format(date,'MM') = 12")
+
+sqlDF2.show()
+
+# SQL WHERE, ROUND and GROUP BY
+
+sqlDF3 = spark.sql("SELECT Date, ROUND(AVG(Close),2) as Average_close, \
+ROUND(Low,2) as Low, ROUND(High,2) as High, Volume \
+FROM google_stocks WHERE Low BETWEEN 2000 AND 3000 \
+GROUP BY Date, Low, High, Volume")
+
+sqlDF3.show()
+
+# SQL  ROUND, GROUP BY AND HAVING
+
+sqlDF4 = spark.sql("SELECT Date, ROUND(AVG(Close),2) as Average_close, \
+ROUND(Low,2) as Low, ROUND(High,2) as High, Volume \
+FROM google_stocks WHERE Low BETWEEN 2000 AND 3000 \
+GROUP BY Date, Low, High, Volume \
+HAVING Average_close > 2500 ")
+
+sqlDF4.show()
+
+# Load Microsoft data
+dfms = spark.read.format("csv") \
+     .option("header","true") \
+     .load("/home/kilo/Downloads/MSFT.csv")
+
+dfms.show()
+
+# Register the DataFrame as a SQL temporary view
+dfms.createOrReplaceTempView("ms_stocks")
+
+# Select columns
+sqlDFms = spark.sql("SELECT * FROM ms_stocks ")
+sqlDFms.show()
+sqlDFms.count()
+
+# Join the two datasets ( Google and Microsoft)
+JoinDF = spark.sql(" SELECT google_stocks.Date, \
+google_stocks.Close as google_close, \
+ms_stocks.Close as micro_close \
+FROM google_stocks JOIN ms_stocks \
+ON google_stocks.Date = ms_stocks.Date \
+WHERE google_stocks.Low > 2000")
+
+JoinDF.show()
+
+# Close SparkSession
+exit()
