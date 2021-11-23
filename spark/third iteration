@@ -16,3 +16,6 @@ dataset.createOrReplaceTempView("mytable")
 
 # Show the first 5 rows of the dataset
 spark.sql("SELECT * from mytable").show(5)
+
+# Close the SparkSession
+exit()
