@@ -45,4 +45,59 @@ mysql -uroot
 
 # mariadb prompt
 show databases;
+
+# Create a database named "stocks"
+CREATE DATABASE stocks;
+
+# Use stocks databases
+USE stocks;
+
+# Create a table named "Google_stocks" # Obtained from Yahoo Finance
+
+CREATE TABLE Google_stocks (
+Date DATE,
+Open DOUBLE,
+High DOUBLE,
+Low DOUBLE,
+Close DOUBLE,
+Adj_Close DOUBLE,
+Volume DOUBLE
+); 
+
+# Load the data into the table created # Data already downloaded from Yahoo Finance
+
+LOAD DATA LOCAL INFILE '/home/kilo/Downloads/GOOG.csv' 
+INTO TABLE Google_stocks
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+# Select the first 2 rows
+
+SELECT * FROM Google_stocks LIMIT 2;
+
+# Create a table named "Micro_stocks" # Obtained from Yahoo Finance
+
+CREATE TABLE Micro_stocks (
+Date DATE,
+Open DOUBLE,
+High DOUBLE,
+Low DOUBLE,
+Close DOUBLE,
+Adj_Close DOUBLE,
+Volume DOUBLE
+); 
+
+# Load the data into the table created # Data already downloaded from Yahoo Finance
+
+LOAD DATA LOCAL INFILE '/home/kilo/Downloads/MSFT.csv' 
+INTO TABLE Google_stocks
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+# Select the first 2 rows
+
+SELECT * FROM Micro_stocks LIMIT 2;
+
 exit;
