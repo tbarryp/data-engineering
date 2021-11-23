@@ -35,8 +35,7 @@ podman run --name mydatadb -d \
 -e MYSQL_PASSWORD=pass \
 -e MYSQL_DATABASE=db \
 -p 3306:3306 \
-rhscl/mariadb-100-rhel7
-
+ rhscl/mariadb-100-rhel7
 
 # Access the container sandbox 
 podman exec -it mydatadb /bin/bash
