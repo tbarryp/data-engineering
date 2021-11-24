@@ -100,4 +100,15 @@ IGNORE 1 ROWS;
 
 SELECT * FROM Micro_stocks LIMIT 2;
 
+# Join the 2 datasets
+
+SELECT Google_stocks.Date, 
+Google_stocks.Close as Close_GO, 
+Micro_stocks.Close as Close_MS
+FROM Google_stocks JOIN Micro_stocks 
+ON Google_stocks.Date = Micro_stocks.Date 
+WHERE Google_stocks.Low > 2000 
+AND Micro_stocks.Low > 300;
+
+
 exit;
