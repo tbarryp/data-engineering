@@ -1,2 +1,5 @@
 # data-engineering
-Data engineering projects
+Data Engineering projects
+1. Databases and Dataframes 
+2. Loading Data
+3. Transforminf Data
