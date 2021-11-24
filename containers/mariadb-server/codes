@@ -91,7 +91,7 @@ Volume DOUBLE
 # Load the data into the table created # Data already downloaded from Yahoo Finance
 
 LOAD DATA LOCAL INFILE '/home/kilo/Downloads/MSFT.csv' 
-INTO TABLE Google_stocks
+INTO TABLE Micro_stocks
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
