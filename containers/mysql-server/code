@@ -1,0 +1,58 @@
+# MySQL on Docker 
+
+# Verify docker is set up
+
+docker --version
+docker-compose --version
+
+# Create volume 
+
+docker volume create volmysql
+
+# List the volume
+
+docker volume ls
+
+# Run mysql-server
+
+docker run --name mysqldb \
+-p 3306:3306 -e MYSQL_ROOT_PASSWORD=mypass \
+--mount source=volmysql,target=/var/lib/mysql \
+-d mysql:latest
+
+# Verify docker is running
+
+docker ps -a
+
+# Execute the container
+
+docker exec -it <CONTAINER ID> bash
+
+mysql -u root -p
+
+# Create database testDB;
+
+CREATE DATABASE testDB;
+
+USE testDB;
+
+# Create table Persons
+
+CREATE TABLE Persons (
+    PersonID INT(15) NOT NULL,
+    LastName VARCHAR(55) NOT NULL,
+    FirstName VARCHAR(55) NOT NULL,
+    Address VARCHAR(55) NOT NULL,
+    City VARCHAR(55) NOT NULL
+);
+
+EXIT;
+
+# Stop the MySQL container
+
+sudo docker stop mysqldb
+
+# Remove the MySQL container
+
+sudo docker rm mysqldb
+
